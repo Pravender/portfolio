@@ -32,6 +32,7 @@ const Navigation: React.FC<NavigationProps> = ({ isDarkMode, onThemeToggle }) =>
     { name: 'Experience', to: 'experience' },
     { name: 'Projects', to: 'projects' },
     { name: 'Skills', to: 'skills' },
+    { name: 'Blog', to: 'blog' },
     { name: 'Contact', to: 'contact' },
   ]
 

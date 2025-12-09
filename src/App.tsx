@@ -6,6 +6,7 @@ import Experience from './components/Experience'
 import Projects from './components/Projects'
 import Skills from './components/Skills'
 import Awards from './components/Awards'
+import Blog from './components/Blog'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 
@@ -25,6 +26,7 @@ function App() {
       <Projects />
       <Skills />
       <Awards />
+      <Blog />
       <Contact />
       <Footer />
     </div>
