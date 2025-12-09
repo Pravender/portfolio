@@ -416,6 +416,354 @@ const Blog: React.FC = () => {
         </div>
       ),
     },
+    {
+      id: 2,
+      title: 'Customer Churn Prediction using Artificial Neural Networks',
+      category: 'Machine Learning',
+      date: 'Dec 2024',
+      readTime: '12 min read',
+      featured: false,
+      githubLink: 'https://github.com/Pravender/ANN-Classification-Churn',
+      excerpt: 'Deep dive into building an ANN classifier for predicting customer churn using real banking data with comprehensive preprocessing and feature engineering.',
+      content: (
+        <div className="space-y-6 text-text-primary">
+          {/* Problem Statement */}
+          <section>
+            <h3 className="text-2xl font-bold text-secondary-cyan mb-4">Problem Statement</h3>
+            <p className="text-text-secondary leading-relaxed mb-4">
+              In the highly competitive banking and financial services industry, <span className="text-secondary-cyan font-semibold">customer retention is critical</span>. 
+              Every customer lost represents not only immediate revenue loss but also expensive acquisition costs for replacement customers.
+            </p>
+            <p className="text-text-secondary leading-relaxed mb-4">
+              The challenge: Given a customer's profile and behavior data, can we predict whether they will leave the bank (churn) in the near future?
+            </p>
+            <p className="text-text-secondary leading-relaxed">
+              Traditional rule-based approaches fail because:
+            </p>
+            <ul className="list-disc list-inside text-text-secondary space-y-2 mt-3">
+              <li>Churn patterns are non-linear and complex</li>
+              <li>Multiple features interact in subtle ways (e.g., age × credit score × balance)</li>
+              <li>Customer behavior evolves over time</li>
+              <li>Manual rules become outdated quickly</li>
+              <li>Difficult to capture domain knowledge programmatically</li>
+            </ul>
+          </section>
+
+          {/* Business Impact */}
+          <section>
+            <h3 className="text-2xl font-bold text-secondary-cyan mb-4">Business Impact</h3>
+            <p className="text-text-secondary leading-relaxed mb-4">
+              Customer churn prediction enables proactive retention strategies:
+            </p>
+            <ul className="space-y-3 text-text-secondary text-sm">
+              <li className="flex items-start gap-3">
+                <span className="text-secondary-cyan font-bold min-w-fit">🎯</span>
+                <div>
+                  <span className="font-semibold">Targeted Interventions:</span> Identify at-risk customers before they leave
+                </div>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-secondary-cyan font-bold min-w-fit">💰</span>
+                <div>
+                  <span className="font-semibold">Cost Reduction:</span> Retention is 5-25x cheaper than acquisition
+                </div>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-secondary-cyan font-bold min-w-fit">📈</span>
+                <div>
+                  <span className="font-semibold">Revenue Protection:</span> Prevent loss of high-value customers
+                </div>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-secondary-cyan font-bold min-w-fit">🔍</span>
+                <div>
+                  <span className="font-semibold">Insights:</span> Understand key factors driving churn
+                </div>
+              </li>
+            </ul>
+          </section>
+
+          {/* Dataset Overview */}
+          <section>
+            <h3 className="text-2xl font-bold text-secondary-cyan mb-4">Dataset Overview</h3>
+            <p className="text-text-secondary leading-relaxed mb-4">
+              The model is trained on a comprehensive banking dataset containing customer information:
+            </p>
+            <div className="bg-primary-blue/10 border border-secondary-cyan/30 rounded-lg p-4 space-y-3">
+              <div>
+                <p className="font-semibold text-secondary-cyan text-sm">Dataset Characteristics:</p>
+                <ul className="text-text-secondary text-sm space-y-1 ml-4 mt-2">
+                  <li>• <span className="font-semibold">Sample Size:</span> Thousands of customer records</li>
+                  <li>• <span className="font-semibold">Features:</span> 11+ input features including demographics and account info</li>
+                  <li>• <span className="font-semibold">Target:</span> Binary classification (Churned: Yes/No)</li>
+                  <li>• <span className="font-semibold">Class Balance:</span> Imbalanced (majority of customers don't churn)</li>
+                </ul>
+              </div>
+            </div>
+            <p className="text-text-secondary leading-relaxed mt-4">
+              Key features include customer age, tenure, balance, credit score, geographic location, product usage, and activity metrics.
+            </p>
+          </section>
+
+          {/* Data Preprocessing */}
+          <section>
+            <h3 className="text-2xl font-bold text-secondary-cyan mb-4">Data Preprocessing & Feature Engineering</h3>
+            
+            <div className="mb-6">
+              <h4 className="text-lg font-bold text-primary-purple mb-3">1. Encoding Categorical Variables</h4>
+              <p className="text-text-secondary leading-relaxed mb-3 text-sm">
+                Neural networks require numerical inputs. Categorical features must be encoded appropriately:
+              </p>
+              <div className="space-y-3">
+                <div className="bg-primary-blue/10 border border-primary-purple/30 rounded-lg p-3">
+                  <p className="font-semibold text-secondary-cyan text-sm mb-1">Label Encoding (Binary Categories)</p>
+                  <p className="text-text-secondary text-sm">
+                    Gender → {'{'}Female: 0, Male: 1{'}'} using LabelEncoder
+                  </p>
+                </div>
+                <div className="bg-primary-blue/10 border border-primary-purple/30 rounded-lg p-3">
+                  <p className="font-semibold text-secondary-cyan text-sm mb-1">One-Hot Encoding (Multi-class)</p>
+                  <p className="text-text-secondary text-sm">
+                    Geography → France, Germany, Spain become 3 binary columns using OneHotEncoder
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="mb-6">
+              <h4 className="text-lg font-bold text-primary-purple mb-3">2. Feature Scaling</h4>
+              <p className="text-text-secondary leading-relaxed mb-3 text-sm">
+                Features have different ranges (age: 18-96, balance: 0-250000). Neural networks perform better with normalized data:
+              </p>
+              <div className="bg-primary-blue/20 border border-secondary-cyan/50 rounded-lg p-4">
+                <p className="font-mono text-secondary-cyan text-center text-sm font-bold mb-2">
+                  Scaled Value = (X - Mean) / Standard Deviation
+                </p>
+                <p className="text-text-secondary text-sm">
+                  Standardization ensures all features contribute equally to the learning process and improves convergence speed.
+                </p>
+              </div>
+            </div>
+
+            <div>
+              <h4 className="text-lg font-bold text-primary-purple mb-3">3. Train-Test Split</h4>
+              <p className="text-text-secondary leading-relaxed text-sm">
+                Data is split into training (70-80%) and testing (20-30%) sets to prevent overfitting and enable proper model evaluation.
+              </p>
+            </div>
+          </section>
+
+          {/* Model Architecture */}
+          <section>
+            <h3 className="text-2xl font-bold text-secondary-cyan mb-4">Artificial Neural Network Architecture</h3>
+            <p className="text-text-secondary leading-relaxed mb-4">
+              An ANN is inspired by biological neurons and consists of interconnected layers that learn non-linear relationships:
+            </p>
+
+            <div className="mb-6">
+              <h4 className="text-lg font-bold text-primary-purple mb-3">Network Structure</h4>
+              <div className="bg-primary-blue/10 border border-secondary-cyan/30 rounded-lg p-4">
+                <p className="text-text-secondary text-sm mb-3 font-mono">
+                  Input Layer → Hidden Layer(s) → Output Layer
+                </p>
+                <ul className="text-text-secondary text-sm space-y-2 ml-4">
+                  <li>• <span className="font-semibold">Input Layer:</span> 11 neurons (one per feature)</li>
+                  <li>• <span className="font-semibold">Hidden Layers:</span> 64 → 32 neurons with ReLU activation</li>
+                  <li>• <span className="font-semibold">Dropout:</span> 20% dropout to prevent overfitting</li>
+                  <li>• <span className="font-semibold">Output Layer:</span> 1 neuron with Sigmoid activation</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="mb-6">
+              <h4 className="text-lg font-bold text-primary-purple mb-3">Activation Functions</h4>
+              <div className="space-y-3">
+                <div className="bg-primary-blue/10 border border-primary-purple/30 rounded-lg p-3">
+                  <p className="font-semibold text-secondary-cyan text-sm mb-1">ReLU (Hidden Layers)</p>
+                  <p className="font-mono text-secondary-cyan text-xs bg-black/30 p-1 rounded mb-1">
+                    ReLU(x) = max(0, x)
+                  </p>
+                  <p className="text-text-secondary text-sm">
+                    Introduces non-linearity, helps network learn complex patterns, computationally efficient
+                  </p>
+                </div>
+                <div className="bg-primary-blue/10 border border-primary-purple/30 rounded-lg p-3">
+                  <p className="font-semibold text-secondary-cyan text-sm mb-1">Sigmoid (Output Layer)</p>
+                  <p className="font-mono text-secondary-cyan text-xs bg-black/30 p-1 rounded mb-1">
+                    Sigmoid(x) = 1 / (1 + e^(-x))
+                  </p>
+                  <p className="text-text-secondary text-sm">
+                    Maps output to (0,1) range, ideal for binary classification probability
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h4 className="text-lg font-bold text-primary-purple mb-3">Loss Function & Optimization</h4>
+              <div className="bg-primary-blue/10 border border-secondary-cyan/30 rounded-lg p-4 space-y-2">
+                <p className="text-text-secondary text-sm">
+                  <span className="font-semibold">Loss Function:</span> Binary Crossentropy (for binary classification)
+                </p>
+                <p className="text-text-secondary text-sm">
+                  <span className="font-semibold">Optimizer:</span> Adam (Adaptive Moment Estimation) for efficient convergence
+                </p>
+                <p className="text-text-secondary text-sm">
+                  <span className="font-semibold">Metric:</span> Accuracy and AUC-ROC for performance evaluation
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* Training Process */}
+          <section>
+            <h3 className="text-2xl font-bold text-secondary-cyan mb-4">Training Process</h3>
+            <p className="text-text-secondary leading-relaxed mb-4">
+              The model learns by iteratively:
+            </p>
+            <ol className="space-y-3 text-text-secondary text-sm">
+              <li className="flex gap-3">
+                <span className="font-bold text-secondary-cyan min-w-fit">1. Forward Pass:</span>
+                <span>Input data flows through network, predictions are made</span>
+              </li>
+              <li className="flex gap-3">
+                <span className="font-bold text-secondary-cyan min-w-fit">2. Compute Loss:</span>
+                <span>Compare predictions with actual values using crossentropy</span>
+              </li>
+              <li className="flex gap-3">
+                <span className="font-bold text-secondary-cyan min-w-fit">3. Backpropagation:</span>
+                <span>Calculate gradients of loss with respect to weights</span>
+              </li>
+              <li className="flex gap-3">
+                <span className="font-bold text-secondary-cyan min-w-fit">4. Update Weights:</span>
+                <span>Adjust weights to minimize loss using Adam optimizer</span>
+              </li>
+              <li className="flex gap-3">
+                <span className="font-bold text-secondary-cyan min-w-fit">5. Repeat:</span>
+                <span>Multiple epochs until convergence (validation accuracy plateaus)</span>
+              </li>
+            </ol>
+          </section>
+
+          {/* Model Evaluation */}
+          <section>
+            <h3 className="text-2xl font-bold text-secondary-cyan mb-4">Model Evaluation Metrics</h3>
+            <p className="text-text-secondary leading-relaxed mb-4">
+              For imbalanced classification problems, accuracy alone is misleading:
+            </p>
+
+            <div className="space-y-4">
+              <div className="bg-primary-blue/10 border border-secondary-cyan/30 rounded-lg p-4">
+                <p className="font-semibold text-secondary-cyan text-sm mb-2">Accuracy</p>
+                <p className="text-text-secondary text-sm">
+                  Percentage of correct predictions. However, if only 20% of customers churn, a model predicting "no churn" for everyone would be 80% accurate.
+                </p>
+              </div>
+
+              <div className="bg-primary-blue/10 border border-secondary-cyan/30 rounded-lg p-4">
+                <p className="font-semibold text-secondary-cyan text-sm mb-2">Precision & Recall</p>
+                <p className="text-text-secondary text-sm mb-2">
+                  <span className="font-semibold">Precision:</span> Of predicted churners, how many actually churned?
+                </p>
+                <p className="text-text-secondary text-sm">
+                  <span className="font-semibold">Recall:</span> Of actual churners, how many did we identify?
+                </p>
+              </div>
+
+              <div className="bg-primary-blue/10 border border-secondary-cyan/30 rounded-lg p-4">
+                <p className="font-semibold text-secondary-cyan text-sm mb-2">AUC-ROC (Area Under Curve)</p>
+                <p className="text-text-secondary text-sm">
+                  Measures the model's ability to distinguish between classes across all thresholds. Range: 0-1, where 1 is perfect.
+                </p>
+              </div>
+
+              <div className="bg-primary-blue/10 border border-secondary-cyan/30 rounded-lg p-4">
+                <p className="font-semibold text-secondary-cyan text-sm mb-2">Confusion Matrix</p>
+                <p className="text-text-secondary text-sm">
+                  Shows True Positives (TP), False Positives (FP), True Negatives (TN), and False Negatives (FN) for detailed error analysis.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* Deployment */}
+          <section>
+            <h3 className="text-2xl font-bold text-secondary-cyan mb-4">Production Deployment</h3>
+            <p className="text-text-secondary leading-relaxed mb-4">
+              The trained model is deployed as a Streamlit web application for real-time predictions:
+            </p>
+            
+            <div className="bg-primary-blue/10 border border-secondary-cyan/30 rounded-lg p-4 space-y-3">
+              <div>
+                <p className="font-semibold text-secondary-cyan text-sm">Live Application:</p>
+                <p className="text-text-secondary text-sm">
+                  <a href="https://ann-classification-churn-egtp7tjkyibs4uthrcklja.streamlit.app/" 
+                     target="_blank" 
+                     rel="noopener noreferrer"
+                     className="text-secondary-cyan hover:text-primary-purple transition-colors">
+                    https://ann-classification-churn-egtp7tjkyibs4uthrcklja.streamlit.app/
+                  </a>
+                </p>
+              </div>
+              <div>
+                <p className="font-semibold text-secondary-cyan text-sm">Features:</p>
+                <ul className="text-text-secondary text-sm space-y-1 ml-4">
+                  <li>• Input customer features via web interface</li>
+                  <li>• Real-time churn probability prediction</li>
+                  <li>• Feature importance visualization</li>
+                  <li>• Batch prediction for multiple customers</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          {/* Key Insights */}
+          <section>
+            <h3 className="text-2xl font-bold text-secondary-cyan mb-4">Key Insights & Learnings</h3>
+            <ul className="space-y-3 text-text-secondary text-sm">
+              <li className="flex items-start gap-3">
+                <span className="text-secondary-cyan font-bold min-w-fit">💡</span>
+                <div>
+                  <span className="font-semibold">Data Preprocessing is Critical:</span> 80% of project time goes into data preparation. Poor preprocessing leads to poor models.
+                </div>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-secondary-cyan font-bold min-w-fit">⚖️</span>
+                <div>
+                  <span className="font-semibold">Handle Class Imbalance:</span> Imbalanced datasets require careful metrics selection and sometimes resampling techniques.
+                </div>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-secondary-cyan font-bold min-w-fit">🔄</span>
+                <div>
+                  <span className="font-semibold">Dropout Prevents Overfitting:</span> Regularization is essential for good generalization on unseen data.
+                </div>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-secondary-cyan font-bold min-w-fit">📊</span>
+                <div>
+                  <span className="font-semibold">Interpretability Matters:</span> Understanding which features drive predictions is crucial for business stakeholders.
+                </div>
+              </li>
+            </ul>
+          </section>
+
+          {/* Conclusion */}
+          <section>
+            <h3 className="text-2xl font-bold text-secondary-cyan mb-4">Conclusion</h3>
+            <p className="text-text-secondary leading-relaxed">
+              Customer churn prediction using Artificial Neural Networks demonstrates the power of deep learning for real-world business problems. 
+              By capturing non-linear relationships between customer features and churn behavior, ANNs outperform traditional linear models.
+            </p>
+            <p className="text-text-secondary leading-relaxed mt-4">
+              The end-to-end pipeline—from raw data to deployed model—showcases essential ML engineering practices: proper preprocessing, 
+              thoughtful model architecture, rigorous evaluation, and practical deployment. For financial institutions, this type of model 
+              can translate directly into millions in retained revenue.
+            </p>
+          </section>
+        </div>
+      ),
+    },
   ]
 
   const categories = ['all', 'Operations Research', 'Machine Learning', 'Web Development']
